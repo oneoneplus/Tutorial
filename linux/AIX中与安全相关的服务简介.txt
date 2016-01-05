@@ -1,0 +1,408 @@
+AIX中与安全相关的服务简介 
+
+     
+     
+     
+  内容提要： 
+
+本文介绍了AIX中与安全相关的服务，内容包括了一些我们平常容易忽略或者比较不常用的服务。对于系统管理员增强系统安全性有一定的参考作用。 
+
+说明： 
+
+服务守护程序如下启动功能注释 
+
+inetd/bootps inetd/etc/inetd.conf用于无盘客户机的对于“网络安装管理”（NIM）和bootp 服务系统远程引导是必需的，与 tftp 一起工作在大多数情况下禁用 
+
+inetd/chargeninetd/etc/inetd.conf字符发生器可用作 TCP 与 UDP 服务为“拒绝（仅测试）服务”攻击提供机会，除非正在测试网络，否则禁用 
+
+inetd/cmsdinetd/etc/inetd.conf日历服务以 root 用户身份运行，因此（CDE 使用）涉及安全性，除非用 CDE 申请该服务，否则禁用在数据库服务器上禁用 
+
+inetd/comsatinetd/etc/inetd.conf通知接收的电子以 root 用户身份运行，因此涉及安邮件全性很少需要 
+
+禁用 
+
+inetd/daytimeinetd/etc/inetd.conf废弃时间服务以 root 用户身份运行，可用作（仅测试）TCP 与 UDP 服务为“拒绝服务 PING”攻击提供机会废弃服务并仅对测试使用 
+
+禁用 
+
+inetd/discardinetd/etc/inetd.conf/dev/null service可用作 TCP 与 UDP 服务在（仅测试）“拒绝服务攻击”中使用废弃服务并仅对测试使用 
+
+禁用 
+
+inetd/dtspcinetd/etc/inetd.confCDE 子过程控制此服务由 inetd 守护程序自动启动以响应 CDE 客户机，该客户机请求在守护程序的主机上启动进程。这使它易受攻击，在没有 CDE 的库房数据库服务器上禁用没有该服务CDE 可能会起作用除非绝对需要，否则禁用 
+
+inetd/echoinetdetc/inetd.conf回传服务（只测试）可用作 TCP 与 UDP 服务。 
+
+可用于“拒绝服务或 Smurf”攻击 
+
+用于回送信号给其他人从而穿过防火墙或启动数据传输 
+
+禁用 
+
+inetd/execinetd/etc/inetd.conf远程执行服务以 root 用户身份运行要求输入无保护传递的用户标识和密码。该服务是非常容易遭到监听的 
+
+禁用
+
+inetd/fingerinetd/etc/inetd.conf在用户处进行取数以 root 用户身份运行给出有关您的系统与用户的信息 
+
+禁用 
+
+inetd/ftpinetd/etc/inetd.conf文件传输协议以 root 用户身份运行。用户标识与口令未加保护地传送，因此易受监听 
+
+禁用此服务并使用公共安全shell 套件 
+
+inetd/imap2inetd/etc/inetd.conf因特网邮件访问协议确保您正使用该服务器的最新版本。只当您运行邮件服务器时才必需。否则，禁用 
+
+用户标识与密码未加保护地传递 
+
+inetd/klogininetd/etc/inetd.confKerberos 登录如果您的站点使用 Kerberos 认证则启用 
+
+inetd/kshellinetd/etc/inetd.confKerberos shell如果您的站点使用 Kerberos 认证则启用 
+
+inetd/logininetd/etc/inetd.confrlogin 服务易于遭受 IP 欺骗与 DNS 欺骗。 
+
+数据（包括用户标识与密码）未加保护地传递 
+
+以 root 用户身份运行 
+
+使用安全 shell 代替该服务 
+
+inetd/netstatinetd/etc/inetd.conf当前网络状态报告如在您的系统上运行，可能潜在地把网络信息给黑客 
+
+禁用 
+
+inetd/ntalkinetd/etc/inetd.conf允许用户相互交谈以 root 用户身份运行，不需要产品或数据库服务器 
+
+除非绝对需要，否则禁用 
+
+inetd/pcnfsdinetd/etc/inetd.confPC NFS 文件服务如果不是当前在使用，则禁用服务 
+
+如果需要与此类似的服务，考虑Samba，pcnfsd 守护程序早于Microsoft 的 SMB 规范的发行版 
+
+inetd/pop3inetd/etc/linetd.conf邮局协议用户标识与密码未加保护地发送 
+
+如果您的系统是邮件服务器并且拥有使用仅支持 POP3 的应用程序的客户机时才需要 
+
+如果您的客户机使用 IMAP，则用其作为替代，或使用 POP3 服务。该服务有安全套接字层（SSL）报文封装 
+
+如果您不在运行邮件服务器或有需要 POP 服务的客户机，则禁用 
+
+inetd/rexdinetd/etc/inetd.conf远程执行以 root 用户身份运行 
+
+用 on 命令监视 
+
+禁用的服务 
+
+使用 rsh 与 rshd 作为替代 
+
+inetd/quotadinetd/etc/inetd.conf文件限额的报告如果您正在运行 NFS 文件服务才（对于 NFS 客户机）需要 
+
+除非需要对 quota 命令提供应答，否则禁用该服务 
+
+如果需要使用该服务，保持该服务的所有的补丁和修正包为最新的 
+
+inetd/rstatdinetd/etc/inetd.conf内核统计信息服务器如果需要监视系统，使用 SNMP 并禁用该服务 
+
+需要使用 rup 命令 
+
+inetd/rusersdinetd/etc/inetd.conf关于用户登录的信息这不是基本的服务。禁用 
+
+以 root 用户身份运行给出系统上当前用户的列表并用rusers 监视 
+
+inetd/rwalldinetd/etc/inetd.conf写给所有用户以 root 用户身份运行 
+
+如果系统有交互式用户，可能需要保持该服务 
+
+如果系统为产品或数据库服务器，这就不需要 
+
+禁用 
+
+inetd/shellinetd/etc/inetd.confrsh 服务如可能则禁用该服务。使用“安全shell”作为替代 
+
+如果必须使用该服务，则使用 TCP 护封来停止电子欺骗与限制暴露 
+
+需要 Xhier 软件分布程序 
+
+inetd/spraydinetd/etc/inetd.confRPC 喷射测试以 root 用户身份运行 
+
+可能不需要 NFS 网络问题的诊断 
+
+如果不在运行 NFS 则禁用 
+
+inetd/systatinetd/etc/inted.conf“ps -ef”状态报告允许远程站点察看系统上的进程状态 
+
+该服务缺省情况下禁用。必须周期性地检查来确保未启用该服务 
+
+inetd/talkinetd/etc/inetd.conf在网上两个用户不是必需服务间建立分区屏幕与 talk 命令一起使用在端口 517 提供 UDP 服务除非对于 UNIX 用户您需要多个交互式交谈会话，否则禁用 
+
+inetd/ntalkinetd/etc/inetd.conf“new talk”在网上不是必需服务 
+
+两个用户间建立分与 talk 命令一起使用 
+
+区屏幕在端口 517 提供 UDP 服务 
+
+除非对于 UNIX 用户您需要多个交互式交谈会话，否则禁用 
+
+inetd/telnetinetd/etc/inetd.conftelnet 服务支持远程登录会话，但未加保护地传递密码和标识 
+
+如果可能，禁用该服务并使用远程访问“安全 shell”作为替代 
+
+inetd/tftpinetd/etc/inetd.conf琐碎文件传送在端口 69 提供 UDP 服务 
+
+以 root 用户身份运行并且可能危及安全 
+
+由 NIM 使用 
+
+除非您正使用 NIM 或必须引导无盘工作站，否则禁用 
+
+inetd/timeinetd/etc/inetd.conf废弃时间服务由 rdate 命令使用的 inetd 的内部功能。 
+
+可用作 TCP 与 UDP 服务 
+
+有时在引导时用于同步时钟 
+
+该服务是过时的。使用 ntpdate 作为替代 
+
+只有在您禁用该服务来测试系统而未发现问题之后，才能禁用该服务 
+
+inetd/inetd/etc/inetd.conf工具－交谈数据rpc.ttdbserverd 以 root 用户身份ttdbserver库服务器运行，且可能危及安全 
+
+（用于CDE）为 CDE 规定作为需要的服务，但CDE 没有它也能工作 
+
+不应该在库房服务器或涉及安全性的任何系统上运行 
+
+inetd/uucpinetd/etc/inetd.confUUCP 网络除非有使用 UUCP 的应用程序，否则禁用 
+
+inittab/dtinit/etc/rc.dt script桌面登录到CDE 在控制台启动 X11 服务器in the /etc/inittab环境支持“X11 显示管理员控制协议”（xdcmp），这样其它 X11 站能登录到同一机器 
+
+应该只在个人工作站使用服务。避免把它用于库房系统 
+
+inittab/dtinit/etc/inittab桌面登录到 CDE 直到系统充分地启动后才有图形显示_nogb环境（无图形引导）与 inittab/dt 涉及内容相同 
+
+inittab/httpdliteinit/etc/inittab用于 docsearch 命文档搜索引擎的缺省 Web 服务器令的 Web 服务器除非您的机器是文档服务器，否则禁用 
+
+inittab/i4lsinit/etc/inittab许可证管理员服务器针对开发机器启用 
+
+针对生产机器禁用 
+
+针对有许可证需要的库房数据库机器启用 
+
+为编译器、数据库软件或任何其它得到许可的产品提供支持 
+
+inittab/imnssinit/etc/inittabdocsearch 命令的用于文档搜索引擎的缺省 Web 服搜索引擎务器的一部分 
+
+除非您的机器是文档服务器，否则禁用 
+
+inittab/imqssinit/etc/inittab用于“文档搜索”用于文档搜索引擎的缺省 Web 服的搜索引擎务器的一部分 
+
+除非您的机器是文档服务器，否则禁用 
+
+inittab/lpdinit/etc/inittabBSD 行式打印机从其它的系统接受打印作业 
+
+界面可以禁用该服务但仍然发送作业到打印服务器 
+
+在确认打印不受影响后，禁用该服务 
+
+inittab/nfsinit/etc/inittab网络文件系统／基于建立在 UDP/RPC 上的 NFS 网络信息服务与 NIS 服务 
+
+认证是最小的 
+
+对库房机器禁用此项
+
+inittab/piobeinit/etc/inittab打印机 I/O 后端处理由 qdaemon 提交的作业的调（用于打印）度、假脱机与打印 
+
+如果因为您正发送打印作业到服务器而不从您的系统打印，则禁用
+
+inittab/init/etc/inittab将守护程序排入队列提交打印作业到 piobe 守护程序qdaemon（用于打印）如果不从系统打印则禁用 
+
+inittab/init/etc/inittab内核消息通常不是必需的 
+
+uprintfd禁用 
+
+inittab/init/etc/inittab写注释到 ttys只由交互式的 UNIX 工作站用户使用 
+
+writesrv对服务器、库房数据库与开发机器禁用该服务 
+
+对工作站启用该服务 
+
+inittab/xdminit/etc/inittab传统的“X11 请不要在库房生产或数据库显示管理”服务器上运行 
+
+请不要在开发系统上运行，除非X11 显示管理是需要的 
+
+如果需要图形，则可以在工作站上运行 
+
+rc.nfs//etc/rc.nfs自动文件系统如果使用 NFS，为工作站启用该服务 
+
+automountd不要把自动安装器用于开发或库房服务器 
+
+rc.nfs/biod/etc/rc.nfs阻拦 IO 守护程序只为 NFS 服务器启用（NFS 服务器所必如果不是 NFS 服务器，连同需的）nfsd 与 rpc.mountd 禁用该服务 
+
+rc.nfs/keyserv/etc/rc.nfs安全 RPC 密钥服管理安全 RPC 所需要的密钥 
+
+务器对 NIS+ 来说很重要 
+
+如果您不在使用 NFS、NIS 与NIS+，则禁用此服务 
+
+rc.nfs/nfsd/etc/rc.nfsNFS 服务（NFS 认证为弱 
+
+服务器所所必需的）能提供其本身堆栈帧崩溃 
+
+如果在 NFS 文件服务器上则启用 
+
+如果禁用该服务，那么一起禁用biod、nfsd 与 rpc.mountd 
+
+rc.nfs/rpc.lockd/etc/rc.nfsNFS 文件锁定如果不在使用 NFS，禁用此服务 
+
+如果不通过网络使用文件锁定则禁用此服务 
+
+在“SANS 十种最大安全性威胁”中提到 lockd 守护程序 
+
+rc.nfs/rpc./etc/rc.nfsNFS 文件安装认证为弱 
+
+mountd（NFS服务器所能提供其本身堆栈帧崩溃 
+
+必需的）应该仅在 NFS 文件服务器上启用 
+
+如果禁用该服务，那么一起禁用biod 与 nfsd 
+
+rc.nfs/rpc.statd/etc/rc.nfsNFS 文件锁定通过 NFS 实现文件（来恢复它们）锁定 
+
+除非在使用 NFS 否则禁用该服务 
+
+rc.nfs/rpc./etc/rc.nfsNIS 密码守护程序用来操作本地密码文件 
+
+yppasswdd（用于 NIS 主控机）只有当有问题的机器是 NIS 主控机时才是必需的，在所有其它情况下禁用 
+
+rc.nfs//etc/rc.nfsNIS 更新守护程序接收由 NIS主控机推进的 NISypupdated（用于 NIS 从属机）数据库映射 
+
+只有当有问题的机器是主 NIS 服务器的 NIS 从属机时才是必需的 
+
+rc.tcpip//etc/rc.tcpipIPv6 界面除非在运行 IPV6，否则禁用 
+
+autoconf6 
+
+rc.tcpip/dhcpcd/etc/rc.tcpip动态主机配置协议数据库服务器不应该依赖于 DHCP。（客户机）禁用该服务 
+
+如果主机不在使用 DHCP，则禁用 
+
+rc.tcpip/dhcprd/etc/rc.tcpip动态主机配置协议夺取 DHCP 广播并发送它们到另一（中继）网络的服务器 
+
+在路由器上查找到的服务的副本 
+
+如果不在使用 DHCP 或依赖于在网络间发送信息，则禁用 
+
+rc.tcpip/dhcpsd/etc/rc.tcpip动态主机配置协议在引导时从客户机应答 DHCP请（服务器）求；给予客户机信息，例如 IP 名称、号码、网掩码、路由器与广播地址，如果不在使用 DHCP ，则禁用该服务 
+
+在生产与库房服务器连同不在使用DHCP 的主机上禁用 
+
+rc.tcpip/dpid2/etc/rc.tcpip过期的 SNMP 服务除非需要 SNMP，否则禁用 
+
+rc.tcpip/gated/etc.rc.tcpip接口间控制的路由仿真路由器功能 
+
+禁用该服务并使用 RIP 或路由器替代 
+
+rc.tcpip/inetd/etc/rc.tcpipinetd 服务彻底地保护系统则可以禁用该服务，但这通常是不实际的 
+
+禁用该服务会禁用一些邮件与 Web服务器需要的远程 shell 服务 
+
+rc.tcpip//etc/rc.tcpip多播路由仿真路由器在网段间发送多点广播mrouted信息包的功能 
+
+禁用此服务。使用路由器替代 
+
+rc.tcpip/names/etc/rc.tcpipDNS 名称服务器只有如果您的机器是 DNS 名称服务器的话，使用此项 
+
+对工作站、开发与生产机器禁用 
+
+rc.tcpip//etc/rc.tcpipIPv6 主机禁用，除非使用 IPV6 
+
+ndp-host 
+
+rc.tcpip//etc/rc.tcpipIPv6 路由禁用，除非使用 IPV6。考虑使用路ndp-router由器替代 IPv6 
+
+rc.tcpip//etc/rc.tcpipRPC 服务必需的服务 
+
+portmapRPC 服务器用 portmap 守护程序注册。需要定位 RPC 服务的客户机要求 portmap 守护程序告诉它们特定的服务位于何处 
+
+只有当您已成功减少 RPC 服务，从而唯一剩余的是 portmap 时，禁用 
+
+rc.tcpip/routed/etc/rc.tcpip接口间的 RIP 路由仿真路由器功能 
+
+禁用如果您有用于网络间的信息包的路由器 
+
+rc.tcpip/rwhod/etc/rc.tcpip远程“who”守护收集并广播数据来监视同一网络上程序的服务器 
+
+禁用该服务 
+
+rc.tcpip//etc/rc.tcpip邮件服务以 root 用户身份运行 
+
+sendmail禁用该服务，除非该机器用作邮件服务器 
+
+如果禁用，那么做以下的一项： 
+
+在 crontab 放置一项来清除队列。使用 /usr/lib/sendmail -q 命令 
+
+配置 DNS 服务器，从而传送服务，器的邮件到某些其它的系统 
+
+rc.tcpip/snmpd/etc/rc.tcpip简单网络管理协议如果您不在通过 SNMP 工具监视该系统，则禁用 
+
+在关键服务器上可能需要 SNMP 
+
+rc.tcpip//etc/rc.tcpip事件的系统日志不建议禁用服务 
+
+syslogd倾向于拒绝服务攻击 
+
+任何系统必需 
+
+rc.tcpip/timed/etc/rc.tcpip旧的时间守护程序禁用该服务并使用 xntp 代替 
+
+rc.tcpip/xntpd/etc/rc.tcpip新的时间守护程序在 sync 中保持系统上的时钟 
+
+禁用该服务。 
+
+配置其它系统为时间服务器并通过使用调用 ntpdate 的 cron 作业让其它系统与其同步 
+
+dt login/usr/dt/config/未限制的 CDE如果不提供CDE 登录到 X11站Xaccess的组，可以限制 dtlogin到控制台。 
+
+匿名 FTP user rmuser -p 匿名 FTP 协议匿名 FTP 协议能力使您不能跟踪 
+
+协议服务<username>某个特定用户 FTP 的使用 
+
+如果用户帐户存在，则除去用户 ftp，按如下操作：rmuser -p ftp 
+
+通过将 /etc/ftpusers 文件（带有那些不可以使用 ftp 的用户的列表）植入系统可以获得更高的安全性 
+
+匿名 FTP 写入匿名 ftp 上载没有文件属于 ftp。 
+
+FTP 匿名上载允许在系统上安置处理不当代码的潜能。 
+
+把那些您想要禁止的用户的名称放到 /etc/ftpusers 文件 
+
+一些系统创建的用户（您可能想要禁止通过 FTP 匿名上载到系统的用户）的示例是：root、daemon、bin.sys、 
+
+admin.uucp、guest、nobody、 
+
+lpd、nuucp、ladp、 
+
+imnadm 
+
+更改 ftpusers 文件的所有者和组权限，按如下所示：chown root:system /etc/ftpusers 
+
+更改 ftpusers 文件的许可权，使之为更严格的设置，如下所示：chmod 644 /etc/ftpusers 
+
+ftp.restrictftp 到系统帐户不应该允许外部用户通过 ftpusers 文件替换 root 文件 
+
+root.access/etc/security/rlogin/telnet 到在 etc/security/user 文件设userroot 帐户置 rlogin 选项为 false
+
+以 root 用户身份登录的任何人应该先以自己的名称登录，然后将 su 改为 root；这提供了审计跟踪
+
+snmpd.read/etc/snmpd.confSNMP 读写团体如果不在使Write用 SNMP，则禁用 SNMP 守护程序。 
+
+在 /etc/snmpd.conf 文件中禁用团体 private 与团体 system
+
+对那些正监视您系统的 IP 地址限制“public”团体
+
+syslog.conf配置 syslogd如果还未配置 /etc/syslog.conf，则禁用该守护程序
+
+如果正使用 syslog.conf 来记录系统信息，则保持它是启用的
+
+ 
